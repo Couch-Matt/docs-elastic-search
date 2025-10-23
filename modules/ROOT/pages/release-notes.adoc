@@ -8,6 +8,38 @@ Release notes, installation instructions, and download archive for the Couchbase
 Scroll down to the version you want, then click the "Download" link to get the full connector distribution.
 Refer to xref:getting-started.adoc[] for detailed installation instructions.
 
+[[v4.4.14]]
+== Version 4.4.14 (2025-10-23)
+
+https://packages.couchbase.com/clients/connectors/elasticsearch/4.4.14/couchbase-elasticsearch-connector-4.4.14.zip[Download]
+
+This version adds additional tags to connector metrics, and updates dependencies.
+
+WARNING: Watch out for a change to the network detection heuristic.
+If the connector is unable to connect to Couchbase Server after the upgrade, you might need to specify `network = 'default'` in the `[couchbase]` section of your connector config.
+
+=== Behavioral Changes
+
+* https://jira.issues.couchbase.com/browse/JVMCBC-1660[JVMCBC-1660]:
+The `auto` network selection heuristic has been changed to fall back to the `external` network if there is no exact address match and the `external` network is present.
++
+Previously, if there was no exact match between an address in the connection string and an address in the cluster topology reported by the server, the connector would select the `default` network.
+Now, if there is no match and an `external` network is present, the connector selects the `external` network.
++
+TIP: If this change causes the connector to select the incorrect network for your deployment (you'll know because the connector will be unable to connect to the Couchbase Server cluster), specify `network = 'default'` in the `[couchbase]` section of your connector config to force the connector to use the same network as before.
+
+
+=== Enhancements
+
+* https://jira.issues.couchbase.com/browse/CBES-337[CBES-337]: Connector metrics are now tagged with "bucket" and "clusterUuid".
+
+* https://jira.issues.couchbase.com/browse/CBES-338[CBES-338]:
+Upgraded Couchbase Java SDK from `3.8.0` to `3.9.2`.
+
+* https://jira.issues.couchbase.com/browse/CBES-339[CBES-339]:
+Upgraded DCP client from `0.54.0` to `0.56.0`.
+
+
 [[v4.4.13]]
 == Version 4.4.13 (2025-04-22)
 
